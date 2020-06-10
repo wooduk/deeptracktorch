@@ -1,10 +1,13 @@
 {
-  "Notebook": {
-    "Export to modules": "/export",
-    "Convert to html": "/export2html",
-    "Show doc": "/showdoc",
-    "Test functions": "/test",
-    "Core functions": "/core",
-    "Command line functions": "/cli"
+  "deeptracktorch": {
+    "Overview": "/",
+    "Synthetic Microscopy Image Generator": "/GenerateSyntheticImages",
+    "Model Definitions": "/models",
+    "Title": "/Untitled1",
+    "Display": "/Display",
+    "Command Line Tools": "/cli",
+    "Experiment 1: Extract Particle Position From Images of Single Particles": "/E1_Track1",
+    "Experiment 1: Extract Particle Position From Images Using segmentation": "/E1a_Track",
+    "Tutorial: Building the CNN": "/tutorial_CNN"
   }
 }

@@ -1,3 +1,6 @@
+images/
+nbs/deeptracktorch/
+
 *.bak
 .gitattributes
 .last_checked

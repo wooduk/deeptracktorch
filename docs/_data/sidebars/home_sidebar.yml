@@ -7,24 +7,33 @@ entries:
 - folders:
   - folderitems:
     - output: web,pdf
-      title: Export to modules
-      url: /export.html
+      title: Overview
+      url: /
     - output: web,pdf
-      title: Convert to html
-      url: /export2html.html
+      title: Synthetic Microscopy Image Generator
+      url: /GenerateSyntheticImages
     - output: web,pdf
-      title: Show doc
-      url: /showdoc.html
+      title: Model Definitions
+      url: /models
     - output: web,pdf
-      title: Test functions
-      url: /test.html
+      title: Title
+      url: /Untitled1
     - output: web,pdf
-      title: Core functions
-      url: /core.html
+      title: Display
+      url: /Display
     - output: web,pdf
-      title: Command line functions
-      url: /cli.html
+      title: Command Line Tools
+      url: /cli
+    - output: web,pdf
+      title: 'Experiment 1: Extract Particle Position From Images of Single Particles'
+      url: /E1_Track1
+    - output: web,pdf
+      title: 'Experiment 1: Extract Particle Position From Images Using segmentation'
+      url: /E1a_Track
+    - output: web,pdf
+      title: 'Tutorial: Building the CNN'
+      url: /tutorial_CNN
     output: web
-    title: Notebook
+    title: deeptracktorch
   output: web
   title: Sidebar
