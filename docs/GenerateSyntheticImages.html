@@ -6,6 +6,7 @@ keywords: fastai
 sidebar: home_sidebar
 
 summary: "Functions to generate synthetic microscopy images. Useful for training a neural network to detect particles."
+description: "Functions to generate synthetic microscopy images. Useful for training a neural network to detect particles."
 ---
 <!--
 
@@ -18,17 +19,24 @@ summary: "Functions to generate synthetic microscopy images. Useful for training
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction"> </a></h2>
 </div>
 </div>
 </div>
@@ -49,13 +57,13 @@ summary: "Functions to generate synthetic microscopy images. Useful for training
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Image-components">Image components<a class="anchor-link" href="#Image-components">&#182;</a></h2>
+<h2 id="Image-components">Image components<a class="anchor-link" href="#Image-components"> </a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Image-Background-with-optional-Illumination-Gradient">Image Background with optional Illumination Gradient<a class="anchor-link" href="#Image-Background-with-optional-Illumination-Gradient">&#182;</a></h3>
+<h3 id="Image-Background-with-optional-Illumination-Gradient">Image Background with optional Illumination Gradient<a class="anchor-link" href="#Image-Background-with-optional-Illumination-Gradient"> </a></h3>
 </div>
 </div>
 </div>
@@ -63,15 +71,24 @@ summary: "Functions to generate synthetic microscopy images. Useful for training
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Improving detection and tracking of particles in non-ideal lighting conditions was stated as a motivation for exploring the use of deep learning approaches in the paper. One such non-ideal condition is when illumination gradient is present in the image.</p>
 <p><a href="https://www.osapublishing.org/optica/abstract.cfm?uri=optica-6-4-506">Helgadottir, Argun, and Volpe (2019)</a> describe a function for adding an illumination gradient to an image background. The steepness of the gradient is controlled with a parameter, <code>intensity</code>, $I$. The direction of the gradient is controlled using another parameter $\theta$. The value for a pixel at $(x,y)$ in the image is given by:</p>
-$$v_{x,y} = \frac{I}{\sqrt{2}s}\left(x sin(\theta) + y cos(\theta)\right)$$<p>where $s$ is the size of the image. This scaling ensures that the values along the direction of the gradient range from $-\frac{I}{2}$ to $\frac{I}{2}$. $x$ and $y$ are the pixel coordinates with respect to the center of the image.</p>
+<p>{% raw %}
+$$v_{x,y} = \frac{I}{\sqrt{2}s}\left(x sin(\theta) + y cos(\theta)\right)$$
+{% endraw %}</p>
+<p>where $s$ is the size of the image. This scaling ensures that the values along the direction of the gradient range from $-\frac{I}{2}$ to $\frac{I}{2}$. $x$ and $y$ are the pixel coordinates with respect to the center of the image.</p>
 <p>Any gradient specified in the image is added to a constant background signal defined by the <code>level</code> parameter.</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -96,6 +113,8 @@ The <code>image_size</code> is in pixels. <code>grad_i</code> expected to be bet
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For example, the <a href="/deeptracktorch/GenerateSyntheticImages#background"><code>background</code></a> function can be invoked like this to produce a gradient that ranges through values between -0.5 to 0.5, along diagonal gradient 45 degrees towards positive x,y co-ords:</p>
@@ -103,6 +122,8 @@ The <code>image_size</code> is in pixels. <code>grad_i</code> expected to be bet
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -180,9 +201,11 @@ The <code>image_size</code> is in pixels. <code>grad_i</code> expected to be bet
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Particles">Particles<a class="anchor-link" href="#Particles">&#182;</a></h3>
+<h3 id="Particles">Particles<a class="anchor-link" href="#Particles"> </a></h3>
 </div>
 </div>
 </div>
@@ -190,7 +213,10 @@ The <code>image_size</code> is in pixels. <code>grad_i</code> expected to be bet
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The authors <a href="https://www.osapublishing.org/optica/abstract.cfm?uri=optica-6-4-506">Helgadottir, Argun, and Volpe (2019)</a> use Bessel function simulate the appearance of particles in the microscopy images based on the success of previous work [1].</p>
 <p>Following the <a href="https://github.com/wooduk/DeepTrack/blob/master/DeepTrack%201.0/deeptrack.py">DeepTrack source code</a> the value at a pixel $(x,y)$ due to a particle centered at pixel $(p_{x},p_{y})$ is given by:</p>
-$$ z_{x,y} = 4I\alpha^{2.5}{\left(\frac{J{(\alpha,r})}{{r}}\right)}^2 $$<p>where they describe that:</p>
+<p>{% raw %}
+$$ z_{x,y} = 4I\alpha^{2.5}{\left(\frac{J{(\alpha,r})}{{r}}\right)}^2 $$
+{% endraw %}</p>
+<p>where they describe that:</p>
 <ul>
 <li>$I$ is the particle intensity, which can take on a value between X..Y</li>
 <li>$\alpha$ is Bessel order, which valued between 0..X</li>
@@ -201,9 +227,15 @@ $$ z_{x,y} = 4I\alpha^{2.5}{\left(\frac{J{(\alpha,r})}{{r}}\right)}^2 $$<p>where
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -226,6 +258,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This function calculates this distance for every pixel in an image size <code>S</code>. I have diverged from the original authors in specifying the position of the particle in units of image half-width with 0,0 being the center of the image. (-1,0) would be a point vertically on the left-hand edge of the image.</p>
@@ -234,6 +268,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -314,12 +350,24 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -341,6 +389,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We make use of the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.jv.html">scipy <code>jv</code> function</a> to calculate response of Bessel function for given order at radius $r$. Using our radial distance functions we create a function that calculates the responses at each pixel position in an image for a particle $(p_cx, p_cy)$.</p>
@@ -355,6 +405,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -492,6 +544,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now an example of using the function to create images of an elliptical particle through a range of orientations.</p>
@@ -499,6 +553,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -868,6 +924,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The image background and particle(s) are combined by adding the output of the relevant functions.</p>
@@ -875,6 +933,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -954,9 +1014,11 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Adding-Noise">Adding Noise<a class="anchor-link" href="#Adding-Noise">&#182;</a></h3>
+<h3 id="Adding-Noise">Adding Noise<a class="anchor-link" href="#Adding-Noise"> </a></h3>
 </div>
 </div>
 </div>
@@ -967,9 +1029,15 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -991,6 +1059,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This function that accepts an image (array) as input and adds noise from Poisson distribution to give the desired signal-to-noise ratio.</p>
@@ -999,13 +1069,15 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">snr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">20</span><span class="p">):</span>
-    <span class="n">a</span><span class="o">=</span><span class="n">display</span><span class="p">(</span><span class="n">show_arr</span><span class="p">(</span><span class="n">add_noise</span><span class="p">(</span><span class="n">composed_image</span><span class="p">,</span> <span class="n">snr</span><span class="o">=</span><span class="n">snr</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;greys_r&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;SNR:</span><span class="si">{snr}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">)))</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">display</span><span class="p">(</span><span class="n">show_arr</span><span class="p">(</span><span class="n">add_noise</span><span class="p">(</span><span class="n">composed_image</span><span class="p">,</span> <span class="n">snr</span><span class="o">=</span><span class="n">snr</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;greys_r&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;SNR:</span><span class="si">{</span><span class="n">snr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">)))</span>
 </pre></div>
 
     </div>
@@ -1309,9 +1381,11 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Helper-functions-for-generating-images">Helper functions for generating images<a class="anchor-link" href="#Helper-functions-for-generating-images">&#182;</a></h2>
+<h2 id="Helper-functions-for-generating-images">Helper functions for generating images<a class="anchor-link" href="#Helper-functions-for-generating-images"> </a></h2>
 </div>
 </div>
 </div>
@@ -1324,7 +1398,7 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Defining-image-parameters">Defining image parameters<a class="anchor-link" href="#Defining-image-parameters">&#182;</a></h3>
+<h3 id="Defining-image-parameters">Defining image parameters<a class="anchor-link" href="#Defining-image-parameters"> </a></h3>
 </div>
 </div>
 </div>
@@ -1338,6 +1412,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1358,6 +1434,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can get a concrete set of parameters for a single image like so:</p>
@@ -1365,6 +1443,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1399,6 +1479,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We also need to do the same for the particles that might appear in the image:</p>
@@ -1406,6 +1488,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1430,6 +1514,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And again the concrete parameters are obtained like so:</p>
@@ -1437,6 +1523,8 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1472,9 +1560,17 @@ is the radial distance  from that pixel to the particle at position <code>p</cod
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1498,6 +1594,8 @@ n: is the number of images</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Through the parameter <code>N</code> this function can return the specifications for multiple images. For example to get 5 images conforming the the specifications:</p>
@@ -1505,6 +1603,8 @@ n: is the number of images</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1614,15 +1714,23 @@ n: is the number of images</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Rendering-the-image-from-the-specification">Rendering the image from the specification<a class="anchor-link" href="#Rendering-the-image-from-the-specification">&#182;</a></h3>
+<h3 id="Rendering-the-image-from-the-specification">Rendering the image from the specification<a class="anchor-link" href="#Rendering-the-image-from-the-specification"> </a></h3>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1635,9 +1743,7 @@ n: is the number of images</p>
 <h4 id="generate_image" class="doc_header"><code>generate_image</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L117" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generate_image</code>(<strong><code>p</code></strong>)</p>
 </blockquote>
 <p>Returns a synthetic microscopy image using the parameters defined by <code>define_image()</code>
-This can be a row from a dataframe containing the parameters.
-returns:
-    img: numpy array values scaled 0..1</p>
+The parameters <code>p</code> can be a <code>dict</code> or a row from a DataFrame containing the parameters.</p>
 
 </div>
 
@@ -1647,6 +1753,8 @@ returns:
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Example of the use of <a href="/deeptracktorch/GenerateSyntheticImages#generate_image"><code>generate_image</code></a>:</p>
@@ -1654,6 +1762,8 @@ returns:
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1731,9 +1841,11 @@ returns:
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Recording-the-'targets'-for-the-image">Recording the 'targets' for the image<a class="anchor-link" href="#Recording-the-'targets'-for-the-image">&#182;</a></h3>
+<h3 id="Recording-the-'targets'-for-the-image">Recording the 'targets' for the image<a class="anchor-link" href="#Recording-the-'targets'-for-the-image"> </a></h3>
 </div>
 </div>
 </div>
@@ -1746,9 +1858,15 @@ returns:
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1758,7 +1876,7 @@ returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_target" class="doc_header"><code>add_target</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L140" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_target</code>(<strong><code>specs_df</code></strong>, <strong><code>mode</code></strong>=<em><code>'radius'</code></em>)</p>
+<h4 id="add_target" class="doc_header"><code>add_target</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L138" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_target</code>(<strong><code>specs_df</code></strong>, <strong><code>mode</code></strong>=<em><code>'radius'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1769,6 +1887,8 @@ returns:
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For example this is how to add target labels a image specification DataFrame.</p>
@@ -1776,6 +1896,8 @@ returns:
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1902,6 +2024,8 @@ returns:
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The module allows alternative training methods. The <a href="/deeptracktorch/GenerateSyntheticImages#generate_mask"><code>generate_mask</code></a> function can take the image specification and generate a mask image indicating the presence of a particle.</p>
@@ -1909,9 +2033,15 @@ returns:
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1921,7 +2051,7 @@ returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="generate_mask" class="doc_header"><code>generate_mask</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L164" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generate_mask</code>(<strong><code>p</code></strong>:<code>dict</code>)</p>
+<h4 id="generate_mask" class="doc_header"><code>generate_mask</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L162" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generate_mask</code>(<strong><code>p</code></strong>:<code>dict</code>)</p>
 </blockquote>
 <p>Given an image specification, this returns as mask showing particle centers</p>
 
@@ -1933,6 +2063,8 @@ returns:
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For example, here is an image and the corresponding mask:</p>
@@ -1940,6 +2072,8 @@ returns:
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -2076,15 +2210,23 @@ returns:
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Annotate-an-Image-with-the-target-information">Annotate an Image with the target information<a class="anchor-link" href="#Annotate-an-Image-with-the-target-information">&#182;</a></h3>
+<h3 id="Annotate-an-Image-with-the-target-information">Annotate an Image with the target information<a class="anchor-link" href="#Annotate-an-Image-with-the-target-information"> </a></h3>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -2094,10 +2236,9 @@ returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="annotate_image" class="doc_header"><code>annotate_image</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L179" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>annotate_image</code>(<strong><code>img</code></strong>, <strong><code>img_def</code></strong>, <strong><code>fs</code></strong>:<code>int</code>=<em><code>12</code></em>, <strong><code>clr</code></strong>=<em><code>'r'</code></em>, <strong><code>ax</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="annotate_image" class="doc_header"><code>annotate_image</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L177" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>annotate_image</code>(<strong><code>img</code></strong>, <strong><code>img_def</code></strong>, <strong><code>fs</code></strong>:<code>int</code>=<em><code>12</code></em>, <strong><code>clr</code></strong>=<em><code>'r'</code></em>, <strong><code>ax</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Show an annotated image
-fs: font size for annotations</p>
+<p>Add annotations to an image based on the parameters in <code>img_def</code></p>
 
 </div>
 
@@ -2107,6 +2248,8 @@ fs: font size for annotations</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For example:</p>
@@ -2114,6 +2257,8 @@ fs: font size for annotations</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -2147,16 +2292,24 @@ fs: font size for annotations</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Save-files-to-disk">Save files to disk<a class="anchor-link" href="#Save-files-to-disk">&#182;</a></h3><p>NOTE: At the moment this is not the primary way to generate training data sets. See fastai_adaptor docs.</p>
+<h3 id="Save-files-to-disk">Save files to disk<a class="anchor-link" href="#Save-files-to-disk"> </a></h3><p>NOTE: At the moment this is not the primary way to generate training data sets. See fastai_adaptor docs.</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -2166,7 +2319,7 @@ fs: font size for annotations</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="save_img" class="doc_header"><code>save_img</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L207" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_img</code>(<strong><code>data</code></strong>:<code>ndarray</code>, <strong><code>path</code></strong>, <strong><code>i</code></strong>:<code>int</code>)</p>
+<h4 id="save_img" class="doc_header"><code>save_img</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L204" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_img</code>(<strong><code>data</code></strong>:<code>ndarray</code>, <strong><code>path</code></strong>, <strong><code>i</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Saves image data as a png file in path</p>
 
@@ -2178,6 +2331,10 @@ fs: font size for annotations</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -2187,7 +2344,7 @@ fs: font size for annotations</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="generate_images" class="doc_header"><code>generate_images</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L215" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generate_images</code>(<strong><code>specs</code></strong>:<code>DataFrame</code>, <strong><code>path</code></strong>)</p>
+<h4 id="generate_images" class="doc_header"><code>generate_images</code><a href="https://github.com/wooduk/deeptracktorch/tree/master/deeptracktorch/simg.py#L212" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generate_images</code>(<strong><code>specs</code></strong>:<code>DataFrame</code>, <strong><code>path</code></strong>)</p>
 </blockquote>
 <p>Takes a dataframe of image specifications, creates images and saves to pth</p>
 
@@ -2199,14 +2356,15 @@ fs: font size for annotations</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>[1] C. F. Bohren and D. R. Huffman,Absorption and Scattering of Light bySmall Particles(Wiley, 2008)</p>
+<h2 id="References">References<a class="anchor-link" href="#References"> </a></h2><p>[1] C. F. Bohren and D. R. Huffman,Absorption and Scattering of Light bySmall Particles(Wiley, 2008)</p>
 
 </div>
 </div>
 </div>
-    {% endraw %}
 </div>
  
 
