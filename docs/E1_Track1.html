@@ -6,6 +6,7 @@ keywords: fastai
 sidebar: home_sidebar
 
 summary: "An experiment to train NN to extract position of particle from image conatining 1 particle."
+description: "An experiment to train NN to extract position of particle from image conatining 1 particle."
 ---
 <!--
 
@@ -18,11 +19,16 @@ summary: "An experiment to train NN to extract position of particle from image c
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -36,6 +42,7 @@ summary: "An experiment to train NN to extract position of particle from image c
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span> <span class="nn">deeptracktorch.disp</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">deeptracktorch.simg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">deeptracktorch.fastai_adapter</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">deeptracktorch.measures</span> <span class="kn">import</span> <span class="n">radialcenter</span>
 <span class="kn">from</span> <span class="nn">deeptracktorch.models</span> <span class="kn">import</span> <span class="n">DeepTrackNet</span>
 <span class="kn">from</span> <span class="nn">deeptracktorch.video</span> <span class="kn">import</span> <span class="n">track_single_particle</span>
@@ -49,9 +56,11 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>The aim of this notebook is to demonstrate the process of training a Neural Network to extract the position of a particle from an image.</p>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction"> </a></h2><p>The aim of this notebook is to demonstrate the process of training a Neural Network to extract the position of a particle from an image.</p>
 <p>It will only consider images containing a single particle.</p>
 <p>The stages are as follows:</p>
 <ul>
@@ -68,52 +77,28 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="If-training-the-network...">If training the network...<a class="anchor-link" href="#If-training-the-network...">&#182;</a></h2>
+<h2 id="Import-the-pre-trained-network">Import the pre-trained network<a class="anchor-link" href="#Import-the-pre-trained-network"> </a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Define the distributions to be used for the particles that will be used when generating a set of training, validation and test images. Based on values extracted from <a href="https://www.osapublishing.org/optica/abstract.cfm?uri=optica-6-4-506">Helgadottir, Argun, and Volpe (2019)</a> and the <a href="https://github.com/wooduk/DeepTrack/blob/master/DeepTrack%201.0/deeptrack.py">source code</a> accompanying that paper.</p>
+<p>The networks were trained on colab instance. See training notebooks [TODO]</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Create a dataframe defining 1000 training images.</p>
-<p><strong>TRAIN THIS ON COLLAB WITH 100k IMAGES!*</strong></p>
-
-</div>
-</div>
-</div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
-    <span class="s1">&#39;n_particles&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
-    <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
-    <span class="s1">&#39;bkgd_level&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.8</span><span class="p">),</span>
-    <span class="s1">&#39;gradient_intensity&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
-    <span class="s1">&#39;gradient_direction&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">pi</span><span class="p">,</span><span class="n">pi</span><span class="p">),</span>
-    <span class="s1">&#39;snr&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span>
-<span class="p">}</span>
-
-<span class="n">train_p_dist</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1"># the position of the particle relative to center of image. -1 to +1 being the edges in each direction.</span>
-    <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
-    <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
-    
-    <span class="c1"># I don&#39;t know what units this is in... pixels?</span>
-    <span class="s1">&#39;radius&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="s1">&#39;intensities&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="n">uniform</span><span class="p">(</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="o">-</span><span class="n">uniform</span><span class="p">(</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
-    <span class="s1">&#39;bessel_orders&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>    <span class="p">,</span>
-    <span class="s1">&#39;ellip_direction&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">pi</span><span class="p">,</span> <span class="n">pi</span><span class="p">),</span>
-    <span class="s1">&#39;ellipticity&#39;</span><span class="p">:</span>  <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">train_specs_df</span> <span class="o">=</span> <span class="n">define_image</span><span class="p">(</span><span class="n">train_img_dist</span><span class="p">,</span> <span class="n">train_p_dist</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">basic_learner</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s1">&#39;models/100k/1p_close&#39;</span><span class="p">)</span>
+<span class="n">basic_learner_w_zero_particles</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s1">&#39;models/100k/01p_close&#39;</span><span class="p">)</span>
+<span class="n">multi_learner</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s1">&#39;models/100k/05p_close&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -125,128 +110,55 @@ summary: "An experiment to train NN to extract position of particle from image c
 
 <div class="output_area">
 
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-7-bdb073f82079&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>basic_learner <span class="ansi-blue-fg">=</span> load_learner<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;models/100k/1p_close&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> basic_learner_w_zero_particles <span class="ansi-blue-fg">=</span> load_learner<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;models/100k/01p_close&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> multi_learner <span class="ansi-blue-fg">=</span> load_learner<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;models/100k/05p_close&#39;</span><span class="ansi-blue-fg">)</span>
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<span class="ansi-green-fg">~/projects/DeepTrack/venv/lib/python3.8/site-packages/fastai/basic_train.py</span> in <span class="ansi-cyan-fg">load_learner</span><span class="ansi-blue-fg">(path, file, test, tfm_y, **db_kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    616</span>     <span class="ansi-blue-fg">&#34;Load a `Learner` object saved with `export_state` in `path/file` with empty data, optionally add `test` and load on `cpu`. `file` can be file-like (file or buffer)&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">    617</span>     source <span class="ansi-blue-fg">=</span> Path<span class="ansi-blue-fg">(</span>path<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">/</span>file <span class="ansi-green-fg">if</span> is_pathlike<span class="ansi-blue-fg">(</span>file<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">else</span> file
+<span class="ansi-green-fg">--&gt; 618</span><span class="ansi-red-fg">     </span>state <span class="ansi-blue-fg">=</span> torch<span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span>source<span class="ansi-blue-fg">,</span> map_location<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;cpu&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">if</span> defaults<span class="ansi-blue-fg">.</span>device <span class="ansi-blue-fg">==</span> torch<span class="ansi-blue-fg">.</span>device<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;cpu&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">else</span> torch<span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span>source<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    619</span>     model <span class="ansi-blue-fg">=</span> state<span class="ansi-blue-fg">.</span>pop<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;model&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    620</span>     src <span class="ansi-blue-fg">=</span> LabelLists<span class="ansi-blue-fg">.</span>load_state<span class="ansi-blue-fg">(</span>path<span class="ansi-blue-fg">,</span> state<span class="ansi-blue-fg">.</span>pop<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;data&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="ansi-green-fg">~/projects/DeepTrack/venv/lib/python3.8/site-packages/torch/serialization.py</span> in <span class="ansi-cyan-fg">load</span><span class="ansi-blue-fg">(f, map_location, pickle_module, **pickle_load_args)</span>
+<span class="ansi-green-intense-fg ansi-bold">    527</span>             <span class="ansi-green-fg">with</span> _open_zipfile_reader<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> opened_zipfile<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    528</span>                 <span class="ansi-green-fg">return</span> _load<span class="ansi-blue-fg">(</span>opened_zipfile<span class="ansi-blue-fg">,</span> map_location<span class="ansi-blue-fg">,</span> pickle_module<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>pickle_load_args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 529</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> _legacy_load<span class="ansi-blue-fg">(</span>opened_file<span class="ansi-blue-fg">,</span> map_location<span class="ansi-blue-fg">,</span> pickle_module<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>pickle_load_args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    530</span> 
+<span class="ansi-green-intense-fg ansi-bold">    531</span> 
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>n_particles</th>
-      <th>size</th>
-      <th>bkgd_level</th>
-      <th>gradient_intensity</th>
-      <th>gradient_direction</th>
-      <th>snr</th>
-      <th>particles</th>
-      <th>tx</th>
-      <th>ty</th>
-      <th>tr</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>51</td>
-      <td>0.281666</td>
-      <td>0.904086</td>
-      <td>-2.932782</td>
-      <td>24.846159</td>
-      <td>[{'x': 0.20605840952743584, 'y': 0.45017838932...</td>
-      <td>30.151460</td>
-      <td>36.254460</td>
-      <td>1.702410</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>3</td>
-      <td>51</td>
-      <td>0.481431</td>
-      <td>0.327577</td>
-      <td>-1.540285</td>
-      <td>65.878143</td>
-      <td>[{'x': -1.1259422232700398, 'y': 0.33004515097...</td>
-      <td>38.816432</td>
-      <td>4.729066</td>
-      <td>1.511529</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>51</td>
-      <td>0.575723</td>
-      <td>0.370848</td>
-      <td>-0.677802</td>
-      <td>64.604949</td>
-      <td>[{'x': 0.3371963096097628, 'y': 0.210908790372...</td>
-      <td>22.470573</td>
-      <td>28.456365</td>
-      <td>1.904123</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1</td>
-      <td>51</td>
-      <td>0.421930</td>
-      <td>0.459481</td>
-      <td>0.108282</td>
-      <td>49.928641</td>
-      <td>[{'x': 0.023889260082264073, 'y': -0.435153001...</td>
-      <td>25.597232</td>
-      <td>14.121175</td>
-      <td>2.532516</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1</td>
-      <td>51</td>
-      <td>0.696920</td>
-      <td>0.415583</td>
-      <td>1.014921</td>
-      <td>75.847562</td>
-      <td>[{'x': 0.19008591952775677, 'y': -0.0328443070...</td>
-      <td>29.752148</td>
-      <td>24.178892</td>
-      <td>2.640544</td>
-    </tr>
-  </tbody>
-</table>
+<span class="ansi-green-fg">~/projects/DeepTrack/venv/lib/python3.8/site-packages/torch/serialization.py</span> in <span class="ansi-cyan-fg">_legacy_load</span><span class="ansi-blue-fg">(f, map_location, pickle_module, **pickle_load_args)</span>
+<span class="ansi-green-intense-fg ansi-bold">    700</span>     unpickler <span class="ansi-blue-fg">=</span> pickle_module<span class="ansi-blue-fg">.</span>Unpickler<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>pickle_load_args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    701</span>     unpickler<span class="ansi-blue-fg">.</span>persistent_load <span class="ansi-blue-fg">=</span> persistent_load
+<span class="ansi-green-fg">--&gt; 702</span><span class="ansi-red-fg">     </span>result <span class="ansi-blue-fg">=</span> unpickler<span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    703</span> 
+<span class="ansi-green-intense-fg ansi-bold">    704</span>     deserialized_storage_keys <span class="ansi-blue-fg">=</span> pickle_module<span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>pickle_load_args<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">AttributeError</span>: Can&#39;t get attribute &#39;MImageList&#39; on &lt;module &#39;deeptracktorch.simg&#39; from &#39;/Users/wooduk/projects/DeepTrack/deeptrack/nbs/deeptracktorch/simg.py&#39;&gt;</pre>
 </div>
-</div>
-
 </div>
 
 </div>
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now use this dataframe to create a fastai <code>DataBunch</code></p>
+    {% endraw %}
 
-</div>
-</div>
-</div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span>
 <span class="n">data</span><span class="o">=</span><span class="n">MImageList</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">train_specs_df</span><span class="p">)</span><span class="o">.</span><span class="n">split_by_rand_pct</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">label_from_df</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tx&#39;</span><span class="p">,</span><span class="s1">&#39;ty&#39;</span><span class="p">,</span><span class="s1">&#39;tr&#39;</span><span class="p">],</span><span class="n">label_cls</span> <span class="o">=</span> <span class="n">XYRList</span><span class="p">)</span><span class="o">.</span><span class="n">databunch</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">show_batch</span><span class="p">()</span>
 </pre></div>
@@ -274,6 +186,8 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a <code>Learner</code> (fastai concept that combines data and netwrok).</p>
@@ -281,12 +195,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DeepTrackNet</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DeepTrackNet</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -294,6 +211,8 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And train it...</p>
@@ -301,12 +220,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -364,6 +286,8 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And save the trained network</p>
@@ -371,12 +295,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -384,9 +311,11 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="If-not-training-the-network...">If not training the network...<a class="anchor-link" href="#If-not-training-the-network...">&#182;</a></h2>
+<h2 id="If-not-training-the-network...">If not training the network...<a class="anchor-link" href="#If-not-training-the-network..."> </a></h2>
 </div>
 </div>
 </div>
@@ -397,12 +326,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s1">&#39;models/E1a&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s1">&#39;models/E1a&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -429,15 +361,17 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Evaluate-the-accuracy-of-predictions-compared-to-standard-methods">Evaluate the accuracy of predictions compared to standard methods<a class="anchor-link" href="#Evaluate-the-accuracy-of-predictions-compared-to-standard-methods">&#182;</a></h2>
+<h2 id="Evaluate-the-accuracy-of-predictions-compared-to-standard-methods">Evaluate the accuracy of predictions compared to standard methods<a class="anchor-link" href="#Evaluate-the-accuracy-of-predictions-compared-to-standard-methods"> </a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Performance-for-varying-levels-of-SNR">Performance for varying levels of SNR<a class="anchor-link" href="#Performance-for-varying-levels-of-SNR">&#182;</a></h3>
+<h3 id="Performance-for-varying-levels-of-SNR">Performance for varying levels of SNR<a class="anchor-link" href="#Performance-for-varying-levels-of-SNR"> </a></h3>
 </div>
 </div>
 </div>
@@ -448,12 +382,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">train_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
     <span class="s1">&#39;n_particles&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
     <span class="s1">&#39;bkgd_level&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.8</span><span class="p">),</span>
@@ -481,6 +418,8 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now loop through SNR values and evaluate predictions, record results</p>
@@ -488,12 +427,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MAE_snr_dtt</span><span class="o">=</span><span class="p">[]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">MAE_snr_dtt</span><span class="o">=</span><span class="p">[]</span>
 <span class="n">MAE_snr_sym</span><span class="o">=</span><span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">snr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">num</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
@@ -527,9 +469,11 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Performance-for-varying-background-gradient-intensities">Performance for varying background gradient intensities<a class="anchor-link" href="#Performance-for-varying-background-gradient-intensities">&#182;</a></h3>
+<h3 id="Performance-for-varying-background-gradient-intensities">Performance for varying background gradient intensities<a class="anchor-link" href="#Performance-for-varying-background-gradient-intensities"> </a></h3>
 </div>
 </div>
 </div>
@@ -540,12 +484,16 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">giexp_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+
+<span class="n">giexp_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
     <span class="s1">&#39;n_particles&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
     <span class="s1">&#39;bkgd_level&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.8</span><span class="p">),</span>
@@ -573,6 +521,8 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now loop through SNR values and evaluate predictions, record results</p>
@@ -580,12 +530,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MAE_gi_dtt</span><span class="o">=</span><span class="p">[]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">MAE_gi_dtt</span><span class="o">=</span><span class="p">[]</span>
 <span class="n">MAE_gi_sym</span><span class="o">=</span><span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">gi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">):</span>
@@ -617,18 +570,23 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Plot-results">Plot results<a class="anchor-link" href="#Plot-results">&#182;</a></h3>
+<h3 id="Plot-results">Plot results<a class="anchor-link" href="#Plot-results"> </a></h3>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;snr_results_2.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;snr_results_2.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">Md_snr</span><span class="p">,</span><span class="n">Ms_snr</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gi_results_2.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -690,12 +648,17 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># take the predicted positions and compare to symtry method</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1"># take the predicted positions and compare to symtry method</span>
 <span class="n">video_file_name</span> <span class="o">=</span> <span class="s1">&#39;../../DeepTrack 1.0/DeepTrack - Example 2 - Optically Trapped Particle Bad.mp4&#39;</span>
 
 <span class="n">estimators</span> <span class="o">=</span> <span class="p">{</span>
@@ -713,12 +676,17 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted_positions</span><span class="p">[</span><span class="s1">&#39;deeptrack&#39;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted_positions</span><span class="p">[</span><span class="s1">&#39;deeptrack&#39;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted_positions</span><span class="p">[</span><span class="s1">&#39;symmetry&#39;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
@@ -756,6 +724,7 @@ summary: "An experiment to train NN to extract position of particle from image c
 
 </div>
     {% endraw %}
+
 </div>
  
 

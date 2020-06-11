@@ -6,6 +6,7 @@ keywords: fastai
 sidebar: home_sidebar
 
 summary: "An experiment to train NN to extract position of particle from image conatining 1 particle."
+description: "An experiment to train NN to extract position of particle from image conatining 1 particle."
 ---
 <!--
 
@@ -18,11 +19,16 @@ summary: "An experiment to train NN to extract position of particle from image c
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -49,9 +55,11 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>The aim of this notebook is to demonstrate the process of training a Neural Network to extract the position of a particle from an image.</p>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction"> </a></h2><p>The aim of this notebook is to demonstrate the process of training a Neural Network to extract the position of a particle from an image.</p>
 <p>It will only consider images containing a single particle.</p>
 <p>The stages are as follows:</p>
 <ul>
@@ -68,7 +76,7 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="If-training-the-network...">If training the network...<a class="anchor-link" href="#If-training-the-network...">&#182;</a></h2>
+<h2 id="If-training-the-network...">If training the network...<a class="anchor-link" href="#If-training-the-network..."> </a></h2>
 </div>
 </div>
 </div>
@@ -87,12 +95,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">train_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
     <span class="s1">&#39;n_particles&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
     <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
     <span class="s1">&#39;bkgd_level&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.8</span><span class="p">),</span>
@@ -122,12 +133,17 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_specs_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">train_specs_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -248,6 +264,8 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now use this dataframe to create a fastai <code>DataBunch</code></p>
@@ -255,12 +273,15 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastai.vision.data</span> <span class="kn">import</span> <span class="n">SegmentationProcessor</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="kn">from</span> <span class="nn">fastai.vision.data</span> <span class="kn">import</span> <span class="n">SegmentationProcessor</span>
 
 
 <span class="k">class</span> <span class="nc">CustomSegmentationLabelList</span><span class="p">(</span><span class="n">MImageList</span><span class="p">):</span>
@@ -293,12 +314,17 @@ summary: "An experiment to train NN to extract position of particle from image c
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pdb</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="kn">import</span> <span class="nn">pdb</span>
 <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span>
 <span class="n">data</span><span class="o">=</span><span class="n">CustomSegmentationItemList</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">train_specs_df</span><span class="p">)</span><span class="o">.</span><span class="n">split_by_rand_pct</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
 
@@ -408,6 +434,8 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a <code>Learner</code> (fastai concept that combines data and netwrok).</p>
@@ -415,12 +443,15 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DeepTrackNet</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DeepTrackNet</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -428,6 +459,8 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And train it...</p>
@@ -435,12 +468,15 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span><span class="o">.</span><span class="n">fit_one_cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -498,6 +534,8 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And save the trained network</p>
@@ -505,12 +543,15 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -518,9 +559,11 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="If-not-training-the-network...">If not training the network...<a class="anchor-link" href="#If-not-training-the-network...">&#182;</a></h2>
+<h2 id="If-not-training-the-network...">If not training the network...<a class="anchor-link" href="#If-not-training-the-network..."> </a></h2>
 </div>
 </div>
 </div>
@@ -531,12 +574,15 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learner</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s1">&#39;models/E1a&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">learner</span> <span class="o">=</span> <span class="n">load_learner</span><span class="p">(</span><span class="s1">&#39;models/E1a&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -563,15 +609,17 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Evaluate-the-accuracy-of-predictions-compared-to-standard-methods">Evaluate the accuracy of predictions compared to standard methods<a class="anchor-link" href="#Evaluate-the-accuracy-of-predictions-compared-to-standard-methods">&#182;</a></h2>
+<h2 id="Evaluate-the-accuracy-of-predictions-compared-to-standard-methods">Evaluate the accuracy of predictions compared to standard methods<a class="anchor-link" href="#Evaluate-the-accuracy-of-predictions-compared-to-standard-methods"> </a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Performance-for-varying-levels-of-SNR">Performance for varying levels of SNR<a class="anchor-link" href="#Performance-for-varying-levels-of-SNR">&#182;</a></h3>
+<h3 id="Performance-for-varying-levels-of-SNR">Performance for varying levels of SNR<a class="anchor-link" href="#Performance-for-varying-levels-of-SNR"> </a></h3>
 </div>
 </div>
 </div>
@@ -582,6 +630,8 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -602,6 +652,8 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now loop through SNR values and evaluate predictions, record results</p>
@@ -609,12 +661,15 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MAE_snr_dtt</span><span class="o">=</span><span class="p">[]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">MAE_snr_dtt</span><span class="o">=</span><span class="p">[]</span>
 <span class="n">MAE_snr_sym</span><span class="o">=</span><span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">snr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">num</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
@@ -648,9 +703,11 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Performance-for-varying-background-gradient-intensities">Performance for varying background gradient intensities<a class="anchor-link" href="#Performance-for-varying-background-gradient-intensities">&#182;</a></h3>
+<h3 id="Performance-for-varying-background-gradient-intensities">Performance for varying background gradient intensities<a class="anchor-link" href="#Performance-for-varying-background-gradient-intensities"> </a></h3>
 </div>
 </div>
 </div>
@@ -661,12 +718,16 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">giexp_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+
+<span class="n">giexp_img_dist</span> <span class="o">=</span> <span class="p">{</span>   
     <span class="s1">&#39;n_particles&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
     <span class="s1">&#39;bkgd_level&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.8</span><span class="p">),</span>
@@ -694,6 +755,8 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now loop through SNR values and evaluate predictions, record results</p>
@@ -701,12 +764,15 @@ Tried: 347,581,656,54,445...
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MAE_gi_dtt</span><span class="o">=</span><span class="p">[]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">MAE_gi_dtt</span><span class="o">=</span><span class="p">[]</span>
 <span class="n">MAE_gi_sym</span><span class="o">=</span><span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">gi</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">):</span>
@@ -738,18 +804,23 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Plot-results">Plot results<a class="anchor-link" href="#Plot-results">&#182;</a></h3>
+<h3 id="Plot-results">Plot results<a class="anchor-link" href="#Plot-results"> </a></h3>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;snr_results_2.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;snr_results_2.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">Md_snr</span><span class="p">,</span><span class="n">Ms_snr</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gi_results_2.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -811,12 +882,17 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># take the predicted positions and compare to symtry method</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1"># take the predicted positions and compare to symtry method</span>
 <span class="n">video_file_name</span> <span class="o">=</span> <span class="s1">&#39;../../DeepTrack 1.0/DeepTrack - Example 2 - Optically Trapped Particle Bad.mp4&#39;</span>
 
 <span class="n">estimators</span> <span class="o">=</span> <span class="p">{</span>
@@ -834,12 +910,17 @@ Tried: 347,581,656,54,445...
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted_positions</span><span class="p">[</span><span class="s1">&#39;deeptrack&#39;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted_positions</span><span class="p">[</span><span class="s1">&#39;deeptrack&#39;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted_positions</span><span class="p">[</span><span class="s1">&#39;symmetry&#39;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
@@ -877,6 +958,7 @@ Tried: 347,581,656,54,445...
 
 </div>
     {% endraw %}
+
 </div>
  
 

@@ -1,11 +1,12 @@
 ---
 
-title: Title
+title: If training the network
 
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "summary"
+
+
 ---
 <!--
 
@@ -18,11 +19,16 @@ summary: "summary"
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -41,12 +47,8 @@ summary: "summary"
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="If-training-the-network">If training the network<a class="anchor-link" href="#If-training-the-network">&#182;</a></h1>
-</div>
-</div>
-</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Set the experimental params</p>
@@ -54,12 +56,15 @@ summary: "summary"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">normal</span><span class="p">,</span> <span class="n">uniform</span><span class="p">,</span> <span class="n">choice</span><span class="p">,</span> <span class="n">randint</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">normal</span><span class="p">,</span> <span class="n">uniform</span><span class="p">,</span> <span class="n">choice</span><span class="p">,</span> <span class="n">randint</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span>
 
 <span class="n">exp_dist</span> <span class="o">=</span> <span class="p">{</span>   
@@ -83,6 +88,8 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Generate the image specs</p>
@@ -90,12 +97,15 @@ summary: "summary"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">image_specs_from_dist</span><span class="p">(</span><span class="n">exp_dist</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">image_specs_from_dist</span><span class="p">(</span><span class="n">exp_dist</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -103,6 +113,8 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Make a data loader and learner</p>
@@ -110,12 +122,15 @@ summary: "summary"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">deeptracktorch.models</span> <span class="kn">import</span> <span class="n">DeepTrackNet</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="kn">from</span> <span class="nn">deeptracktorch.models</span> <span class="kn">import</span> <span class="n">DeepTrackNet</span>
 
 <span class="c1">#data = MImageList.from_df(df).split_by_rand_pct(0.2).label_from_df(cols=[&#39;cx&#39;,&#39;cy&#39;,&#39;r&#39;],label_cls = XYRList).databunch(bs=16)</span>
 <span class="c1">#learner = Learner(data, DeepTrackNet)</span>
@@ -126,6 +141,8 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Trainlearn.fit_one_cycle(4)</p>
@@ -133,12 +150,15 @@ summary: "summary"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#earner.fit_one_cycle(4)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1">#earner.fit_one_cycle(4)</span>
 </pre></div>
 
     </div>
@@ -165,18 +185,23 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="If-using-previously-trained-network">If using previously trained network<a class="anchor-link" href="#If-using-previously-trained-network">&#182;</a></h1>
+<h1 id="If-using-previously-trained-network">If using previously trained network<a class="anchor-link" href="#If-using-previously-trained-network"> </a></h1>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#learner = load_learner(&#39;models/E2&#39;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1">#learner = load_learner(&#39;models/E2&#39;)</span>
 </pre></div>
 
     </div>
@@ -205,12 +230,17 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Define the video file to be tracked</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1">### Define the video file to be tracked</span>
 <span class="c1">#video_file_name = &#39;../../DeepTrack 1.0/DeepTrack - Example 2 - Optically Trapped Particle Good.mp4&#39;</span>
 </pre></div>
 
@@ -249,12 +279,17 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># take the predicted positions and compare to symtry method</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1"># take the predicted positions and compare to symtry method</span>
 <span class="c1"># video_file_name = &#39;../../DeepTrack 1.0/DeepTrack - Example 2 - Optically Trapped Particle Bad.mp4&#39;</span>
 
 <span class="c1"># estimators = {</span>
@@ -286,12 +321,17 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># plt.plot(predicted_positions[&#39;deeptrack&#39;][:,1])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1"># plt.plot(predicted_positions[&#39;deeptrack&#39;][:,1])</span>
 <span class="c1"># plt.plot(predicted_positions[&#39;symmetry&#39;][:,1])</span>
 </pre></div>
 
@@ -328,12 +368,17 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># plt.hist(predicted_positions[&#39;deeptrack&#39;][:,1],bins=25)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1"># plt.hist(predicted_positions[&#39;deeptrack&#39;][:,1],bins=25)</span>
 </pre></div>
 
     </div>
@@ -374,12 +419,17 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># !ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 &quot;../../DeepTrack 1.0/DeepTrack - Example 2 - Optically Trapped Particle Good.mp4&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1"># !ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 &quot;../../DeepTrack 1.0/DeepTrack - Example 2 - Optically Trapped Particle Good.mp4&quot;</span>
 </pre></div>
 
     </div>
@@ -401,12 +451,17 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># from PIL import Image, ImageDraw, ImageFont</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="c1"># from PIL import Image, ImageDraw, ImageFont</span>
 
 <span class="c1"># def annotate_video_with_predictions(video_file_name, predicted_positions):</span>
     
@@ -456,6 +511,10 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -471,12 +530,17 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%HTML</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#notest</span>
+<span class="o">%%HTML</span>
 
 <span class="p">&lt;</span><span class="nt">video</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">controls</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../DeepTrack 1.0/DeepTrack - Example 6 - Vesicles SNR4 mid.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span><span class="p">&gt;</span>
@@ -507,6 +571,10 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -609,6 +677,10 @@ summary: "summary"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -652,6 +724,7 @@ summary: "summary"
 
 </div>
     {% endraw %}
+
 </div>
  
 
