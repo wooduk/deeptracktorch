@@ -148,12 +148,12 @@ def add_target(specs_df, mode='radius'):
             particles=pd.DataFrame(img_spec['particles'])
             # sort the particles by closest to the centre
 
-            particles['rs'] = particles.apply(lambda r: r['x']**2+r['y']**2, axis = 1)
+            particles['rs'] = particles.apply(lambda r: np.sqrt(r['x']**2+r['y']**2), axis = 1)
             particles.sort_values(by='rs',ascending=True, inplace=True)
             closest_particle = particles.iloc[0]
             specs_df.loc[img_counter,'tx']=closest_particle['cx']
             specs_df.loc[img_counter,'ty']=closest_particle['cy']
-            specs_df.loc[img_counter,'tr']=closest_particle['radius'] if mode == 'radius' else closest_particle['r']
+            specs_df.loc[img_counter,'tr']=closest_particle['radius'] if mode == 'radius' else closest_particle['rs']
 
 
     return(specs_df)
@@ -177,9 +177,11 @@ def generate_mask(p: dict):
 def annotate_image(img, img_def, fs:int=12, clr='r', ax=None):
     """Add annotations to an image based on the parameters in `img_def`
     """
-    plt.imshow(img,interpolation='none',cmap='Greys_r')
     if ax is None:
         ax=plt.gca();
+
+    ax.imshow(img,interpolation='none',cmap='Greys_r')
+
     ax.grid(False);
     plt.axis('off')
     h=img_def['size']//2
