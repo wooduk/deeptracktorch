@@ -122,4 +122,4 @@ def radialcenter(I):
     sigma = np.sqrt(sum(sum(Isub*r2))/sum(Isub.flatten()))/2 # % second moment is 2*Gaussian width
 
 
-    return(xc,yc,r,sigma,xr,yr)
+    return(xr,yr,r,sigma,xc,yc)

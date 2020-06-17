@@ -7,7 +7,7 @@ __all__ = ['background', 'radial_grid', 'particle_bessel_response', 'add_noise',
 from typing import Tuple
 import numpy as np
 from PIL import Image as PILImage
-from deeptrack.disp import *
+from .disp import *
 from numpy.random import choice, normal, uniform, randint
 from numpy import pi
 import pandas as pd
@@ -103,7 +103,7 @@ def define_image(img_dist, p_dist, N=1):
     n: is the number of images"""
     out_df = pd.DataFrame({k:v(N) for (k,v) in img_dist.items()})
     hs = out_df['size'].iloc[0]//2
-    out_df['particles'] =  out_df.n_particles.apply(lambda n: generate_particles(p_dist, n, hs))
+    out_df['particles'] =  out_df.n_particles.apply(lambda n: generate_particles(p_dist, int(n), hs))
     return out_df
 
 
